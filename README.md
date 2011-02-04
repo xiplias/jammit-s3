@@ -88,6 +88,24 @@ This will use the CloudFront domain name for your assets instead of serving them
 
 For this to work you need to make sure you have the CloudFront enabled via you Amazon acccount page. Go here: http://aws.amazon.com/cloudfront/ and click "Sign Up"
 
+## Caching and stale assets
+
+To avoid serving stale assets, especially when using CloudFront, you may also want to include a git commit hash in your asset path:
+
+    s3_include_abbrev_commit: on
+
+At this point, since released files will never change, you can also set:
+
+    s3_cache_control: public,max-age=31536000
+You will also need to override `asset_path` in `config/environments/production.rb`.  If you're running on Heroku, you should be able to use the following:
+
+    config.action_controller.asset_path = lambda do |asset_path|
+      "/#{ENV['COMMIT_HASH']}#{asset_path}"
+    end
+
+If you're using another deployment environment, you can get the commit hash using the following git command:
+
+    git rev-parse --short HEAD
 
 ## Bugs / Feature Requests
 

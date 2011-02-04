@@ -11,6 +11,13 @@ module Jammit
         @bucket_location = options[:bucket_location] || Jammit.configuration[:s3_bucket_location]
         @cache_control = options[:cache_control] || Jammit.configuration[:s3_cache_control]
         @acl = options[:acl] || Jammit.configuration[:s3_permission]
+        include_abbrev_commit = options[:include_abbrev_commit] || Jammit.configuration[:s3_include_abbrev_commit]
+        if include_abbrev_commit
+          # Get the short form of the current commit's SHA1 sum.  We use
+          # the short form for compatibility with Heroku's COMMIT_HASH
+          # environment variable.
+          @abbrev_commit = `git rev-parse --short HEAD`.chomp
+        end
 
         @bucket = find_or_create_bucket
       end
@@ -48,6 +55,9 @@ module Jammit
       Dir["#{ASSET_ROOT}/#{glob}"].each do |local_path|
         next if File.directory?(local_path)
         remote_path = local_path.gsub(/^#{ASSET_ROOT}\/public\//, "")
+        if @abbrev_commit
+          remote_path = "#{@abbrev_commit}/#{remote_path}"
+        end
 
         use_gzip = false
 
