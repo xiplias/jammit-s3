@@ -2,15 +2,20 @@ PATH
   remote: .
   specs:
     jammit-s3 (0.5.4.3)
+      aws-s3 (>= 0.6.2)
       jammit (>= 0.5.4)
       mimemagic (>= 0.1.7)
-      s3 (>= 0.3.7)
 
 GEM
   remote: http://rubygems.org/
   specs:
     archive-tar-minitar (0.5.2)
-    closure-compiler (1.0.0)
+    aws-s3 (0.6.2)
+      builder
+      mime-types
+      xml-simple
+    builder (3.0.0)
+    closure-compiler (0.3.3)
     columnize (0.3.1)
     diff-lcs (1.1.2)
     jammit (0.6.0)
@@ -19,8 +24,8 @@ GEM
     linecache (0.43)
     linecache19 (0.5.11)
       ruby_core_source (>= 0.1.4)
-    mimemagic (0.1.8)
-    proxies (0.2.1)
+    mime-types (1.16)
+    mimemagic (0.1.7)
     rake (0.8.7)
     rspec (2.0.0.beta.22)
       rspec-core (= 2.0.0.beta.22)
@@ -47,9 +52,8 @@ GEM
       ruby-debug-base19 (>= 0.11.19)
     ruby_core_source (0.1.4)
       archive-tar-minitar (>= 0.5.2)
-    s3 (0.3.7)
-      proxies
-    yui-compressor (0.9.3)
+    xml-simple (1.0.12)
+    yui-compressor (0.9.1)
 
 PLATFORMS
   ruby
