@@ -14,6 +14,11 @@ module Jammit
         @cache_control = options[:cache_control] || Jammit.configuration[:s3_cache_control]
         @expires = options[:expires] || Jammit.configuration[:s3_expires]
         @acl = options[:acl] || Jammit.configuration[:s3_permission] || :public_read
+        
+        if Jammit.configuration[:s3_host]
+          AWS::S3::DEFAULT_HOST.replace Jammit.configuration[:s3_host]
+        end
+        
 		    include_abbrev_commit = options[:include_abbrev_commit] || Jammit.configuration[:s3_include_abbrev_commit]
         if include_abbrev_commit
           # Get the short form of the current commit's SHA1 sum.  We use
